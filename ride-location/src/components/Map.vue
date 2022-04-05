@@ -1,8 +1,13 @@
 <template>
-            <div>
-                <h1>Your coordinates:</h1>
-                <p>{{ coordinates.lat }} Latitude, {{ coordinates.lng }} Longitude</p>
-            </div>
+    <div>
+        <h1>Your coordinates:</h1>
+        <p>{{ coordinates.lat }} Latitude, {{ coordinates.lng }} Longitude</p>
+    </div>
+        <GmapMap
+            :center="{lat:10,lng:10}"
+            :zoom="7"
+            style="width:640px; height:360px"
+        ></GmapMap>
 </template>
 
 <script>
@@ -20,7 +25,8 @@
     created(){
         //get user's coordinates from browser request when the component loads up
         this.$getLocation({})
-            .then(coordinates =>{
+            .then(coordinates => {
+                console.log(coordinates)
                 this.coordinates = coordinates;
             })
             .catch(error=> alert(error));
