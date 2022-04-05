@@ -2,18 +2,20 @@
   <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link> |
-    <router-link to="/testing">Testing</router-link> |
+    <router-link to="/Jobs">Testing</router-link> |
     <router-link to="/maps">Maps</router-link> |
-    <router-link to="/Map">maps</router-link>
-
+    <router-link to="/Map">map</router-link>
   </nav>
-  <div id="app">
-    <maps/>
-  </div>
   <router-view/>
+
 </template>
 
 <script>
+/* ^^
+  <div id="app">
+    <maps/>
+  </div>
+*/
 import maps from './views/maps';
 
 export default{

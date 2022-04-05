@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "cypress": "^9.5.3",
-    "vue": "^3.2.31"
-  }
-}

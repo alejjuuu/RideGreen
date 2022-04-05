@@ -1,7 +1,8 @@
-import testing from '@/views/testing.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import Jobs from '../views/Jobs.vue'
 import maps from '../views/maps.vue'
+import Map from '../views/Map.vue'
 import notFound from '../views/notFound.vue'
 //import VueGeolocation from 'vue-browser-geolocation'
 
@@ -36,9 +37,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
   {
-    path:'/testing',
-    name:'testing',
-    component: testing
+    path:'/jobs',
+    name:'Jobs',
+    component: Jobs
   },
     {
     path:'/maps',
