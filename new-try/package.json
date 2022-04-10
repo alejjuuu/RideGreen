@@ -13,6 +13,7 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
-    "vue-browser-geolocation": "^1.8.0"
+    "vue-browser-geolocation": "^1.8.0",
+    "vue2-google-maps": "^0.10.7"
   }
 }

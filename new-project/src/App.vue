@@ -6,7 +6,7 @@
     <router-link to="/maps">Maps</router-link> |
     <router-link to="/Map">map</router-link>
   </nav>
-  <router-view/>
+  <!--<router-view/> -->
 
 </template>
 

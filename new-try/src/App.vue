@@ -1,11 +1,10 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
+  <!--<img alt="Vue logo" src="./assets/logo.png">-->
+  <Map/>
 </template>
 
 <script>
 import Map from './components/Map.vue';
-//import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'App',
   components: {

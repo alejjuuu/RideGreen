@@ -5,7 +5,7 @@
     <router-link to="/Map">Map</router-link>
 
   </nav>
-  <router-view/>
+  <!--<router-view/> -->
 </template>
 
 <style>

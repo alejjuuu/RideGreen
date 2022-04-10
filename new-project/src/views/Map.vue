@@ -19,11 +19,11 @@
         },
     created(){
         //get user's coordinates from browser request when the component loads up
-        this.$getLocation({})
+        /*this.$getLocation({})
             .then(coordinates => {
                 this.coordinates = coordinates;
             })
-            .catch(error=> alert(error));
+            .catch(error=> alert(error));*/
     }
 
 }
