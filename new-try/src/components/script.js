@@ -1,36 +1,4 @@
-<template>
-  <div>
-      <div stly='display: flex; align-items: center; justify-content: spca-between'>
-        <h1>Your coordinates:</h1>
-        <p>{{ myCoordinates.lat }} Latitude, {{ myCoordinates.lng }} Longitude</p>
-      </div>
-      <div>
-        <h1>Map coordinates:</h1>
-        <p>{{ mapCoordinates.lat }} Latitude, {{ mapCoordinates.lng }} Longitude</p>
-      </div>
-    <section class="ui two column centered grid">
-      <div class="column">
-        <form clas="ui segment large form">
-          <div class="ui message red"></div>
-          <div class="ui segment">
-            <div class="field">
-              <div class="ui right icon input large">
-                <input type="text" placeholder="Enter your address" v-model="address"/>
-                <i class="dot circle link icon" @click="locatorButtonPress"></i>
-              </div>
-            </div>
-            <button class="ui button">GO</button>
-          </div>
-        </form>
-      </div>
-    </section>
-    <section>
-      <p>Map Below</p>
-      <div id="map" style="width:50%;height:400px; justify-content: center" ></div>
-    </section>   
-  </div> 
-</template>
-<script>
+
 import axios from 'axios'
 
 //coordinates objects line 3-5
@@ -117,50 +85,3 @@ export default {
     }
   }
 };
-
-</script>
-
-
-
-<style>
-.ui.button,
-.dot.circle.icon{
-  background-color: rgb(169, 85, 85);
-  color: white;
-}
-  #map {
-    height: 100%;
-    padding: 10rem;
-    background-color: grey;
-  }
-
-</style>
-
-
-
-        <!--
-            /*
-    mounted(){
-      this.map = new google.maps.Map(document.getElementById('map'), {
-      center: { lat: -34.397, lng: 150.644 },
-      zoom: 8,
-    });
-    },*/
-        /*
-function myMap() {
-var mapProp= {
-  center:new google.maps.LatLng(51.508742,-0.120850),
-  zoom:5,
-};
-var map = new google.maps.Map(document.getElementById("map"),mapProp);
-}
-
-        <GmapMap
-        :center="{lat:10,lng:10}">
-        <GmapMarker
-            v-for="(m, index) in markers"
-            :key="index"
-            :position="m.position"
-            @click="center = m.position"
-            /> 
-</GmapMap>     -->
