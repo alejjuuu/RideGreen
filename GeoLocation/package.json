@@ -1,20 +1,21 @@
 {
-  "name": "vuegeomaps.test",
+  "name": "ride-location",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "inspect": "vue-cli-service inspect > current-webpack-settings.json"
   },
   "dependencies": {
-    "core-js": "^3.6.4",
-    "vue": "^2.6.11"
+    "core-js": "^3.8.3",
+    "vue": "^3.2.13",
+    "vue-geolocation-api": "^0.1.21"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.2.0",
-    "@vue/cli-service": "^4.2.0",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
     "vue-browser-geolocation": "^1.8.0",
-    "vue-template-compiler": "^2.6.11",
     "vue2-google-maps": "^0.10.7"
   }
 }
