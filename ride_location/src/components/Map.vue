@@ -1,44 +1,47 @@
 <template>
-  <div>
-      <div stly='display: flex; align-items: center; justify-content: spca-between'>
-        <h1>Your coordinates:</h1>
-        <p>{{ myCoordinates.lat }} Latitude, {{ myCoordinates.lng }} Longitude</p>
+  <div id='container'>
+    <div class="row">
+      <div class="col-md-6">
+          <h1>Your coordinates:</h1>
+          <p>{{ myCoordinates.lat }} Latitude, {{ myCoordinates.lng }} Longitude</p>
       </div>
-      <div>
-        <h1>Map coordinates:</h1>
+      <div class="col-md-6">
+        <h1>Destination:</h1>
         <p>{{ mapCoordinates.lat }} Latitude, {{ mapCoordinates.lng }} Longitude</p>
       </div>
-        <form>
-          <h3>Change address map coordinates</h3>
-          <label for="lat"></label>
-          <input type="text">
-          <label for="lon"></label>
-          <input type="text">
-        </form>
-
-    <br>
-    <section class="ui two column centered grid">
-      <div class="column">
-        <form clas="ui segment large form">
-          <div class="ui message red"></div>
-          <div class="ui segment">
-            <div class="field">
-              <div class="ui right icon input large">
-                <h3>Street name</h3>
-                <input type="text" placeholder="Your current address" v-model="address"/>
-                <i class="dot circle link icon" @click="locatorButtonPress"></i>
+    </div>
+      <br>
+    <div class="row">
+    <div class="col-md-6">
+        <div class="column">
+          <form clas="ui segment large form">
+            <div class="ui message red"></div>
+            <div class="ui segment">
+              <div class="field">
+                <div class="ui right icon input large">
+                  <h3>Street name</h3>
+                  <input id="autocomplete" placeholder="autofilled on" type="text"/>
+                </div>
               </div>
+              <button class="ui button">GO</button>
             </div>
-            <button class="ui button">GO</button>
-          </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <form>
+          <h3>Add a new marker</h3>
+          <label for="lat"></label>
+          <input type="text" placeholder="Enter lat">
+          <label for="lon"></label>
+          <input type="text" placeholder="Enter lng">
         </form>
       </div>
-    </section>
-
     <section>
-      <p>Map Below</p>
-      <div id="map" style="width:50%;height:400px; justify-content: center" ></div>
-    </section>   
+      <br>
+      <div id="map" style="width:400px;height:400px;" ></div>
+    </section>
+    </div>   
   </div> 
 </template>
 <script src="../../src/map.js"> </script>
@@ -49,11 +52,16 @@
   background-color: rgb(169, 85, 85);
   color: white;
 }
+
   #map {
     height: 100%;
     padding: 10rem;
     background-color: grey;
+    align-content: center;
+    display: flex;
+    justify-content: center;
   }
+
 
 </style>
 
