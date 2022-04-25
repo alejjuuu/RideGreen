@@ -83,7 +83,7 @@
           </li>
         </ul>
       </div>
-<!--
+    <!--
       <div class="col-md-12">
         <form>
           <h3>Add a new marker</h3>
@@ -106,6 +106,7 @@
     </div>   
   </div> 
 </template>
+
 <script src="../../src/map.js"> </script>
 
 <style>

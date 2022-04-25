@@ -13,6 +13,7 @@ function getLocation(){
     }
 }
 
+getLocation();
 //var newVal = getLocation();
 //console.log(newVal['lat'])
 /*
@@ -54,6 +55,7 @@ function initMap(latitude, longitude) {
     });
   
     let markers = [];
+
     // Listen for the event fired when the user selects a prediction and retrieve
     // more details for that place.
     searchBox.addListener("places_changed", () => {
@@ -68,6 +70,8 @@ function initMap(latitude, longitude) {
       marker.setMap(null);
     });
     markers = [];
+    console.log(markers);
+
     // For each place, get the icon, name and location.
     const bounds = new google.maps.LatLngBounds();
 
@@ -139,6 +143,7 @@ function addMarker(location, map){
         position:location,//{ lat:latitude, lng:longitude},
         label: labels[labelIndex++ % labels.length],
         map:map,
+        draggable:true
     });
 }
 
