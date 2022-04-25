@@ -25,6 +25,10 @@ if (coords.lat && coords.lng){
 //Labels for the markers by clicking on the screen
 const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 let labelIndex =0;
+let destination=(0,0);
+let markers = [];
+let userDestination ={};
+
 //main google maps API
 function initMap(latitude, longitude) {
     // The user location 
@@ -33,7 +37,9 @@ function initMap(latitude, longitude) {
     const map = new google.maps.Map(document.getElementById("map"), {
     center: userLocation,
     zoom: 15,
+    //mapTypeId: google.maps.mapTypeId.ROADMAP Not needed for now
     });
+    // user marker
     var mk1 = new google.maps.Marker({position: userLocation,
     map,
     });
@@ -42,6 +48,13 @@ function initMap(latitude, longitude) {
     google.maps.event.addListener(map, "click", (event) => {
     addMarker(event.latLng, map);
     });
+
+    google.maps.event.addListener( markers, 'click', function ( event ) {
+    var latitude = document.getElementById( "maps_latitude" ).value = event.latLng.lat();
+    var longitude = document.getElementById( "maps_longitude" ).value = event.latLng.lng();
+    userDestination = { lat: latitude, lng: longitude };
+    });
+    //userDestination = { lat: lat, lng: lng };
 
     // Create the search box and link it to the UI element.
     const input = document.getElementById("pac-input");
@@ -53,9 +66,7 @@ function initMap(latitude, longitude) {
     searchBox.setBounds(map.getBounds());
     
     });
-  
-    let markers = [];
-
+    //array for markers 
     // Listen for the event fired when the user selects a prediction and retrieve
     // more details for that place.
     searchBox.addListener("places_changed", () => {
@@ -70,7 +81,6 @@ function initMap(latitude, longitude) {
       marker.setMap(null);
     });
     markers = [];
-    console.log(markers);
 
     // For each place, get the icon, name and location.
     const bounds = new google.maps.LatLngBounds();
@@ -97,6 +107,9 @@ function initMap(latitude, longitude) {
           position: place.geometry.location,
         })
       );
+      destination = markers[0].position;
+      //console.log(destination);
+      //var location = google.maps.Marker({position:place.geometry.location});
       if (place.geometry.viewport) {
         // Only geocodes have viewport.
         bounds.union(place.geometry.viewport);
@@ -106,16 +119,17 @@ function initMap(latitude, longitude) {
     });
     map.fitBounds(bounds);
   });
+  //console.log(markers[0].position);
 
-
+  //directions here!
   let directionsService = new google.maps.DirectionsService();
   let directionsRenderer = new google.maps.DirectionsRenderer();
   directionsRenderer.setMap(map); // Existing map object displays directions
   // Create route from existing points used for markers
   const route = {
       origin: userLocation,
-      destination: markers[0],
-      travelMode: 'DRIVING'
+      destination: userDestination,
+      travelMode: google.maps.TravelMode.DRIVING,
   }
 
   directionsService.route(route,
@@ -135,6 +149,23 @@ function initMap(latitude, longitude) {
         }
       }
     });
+}
+
+function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+  directionsService
+    .route({
+      origin: {
+        query: document.getElementById("start").value,
+      },
+      destination: {
+        query: document.getElementById("end").value,
+      },
+      travelMode: google.maps.TravelMode.DRIVING,
+    })
+    .then((response) => {
+      directionsRenderer.setDirections(response);
+    })
+    .catch((e) => window.alert("Directions request failed due to " + status));
 }
 
 //function to integate more markers on the map where location is the center lat lng
@@ -159,8 +190,12 @@ function initAutocomplete(){
         autocomplete.addListener('place_changed',onPlaceChanged);
 }
 
+//random lat and lng 
+var njit = (40.742491, -74.178078);
+var stevens = (37.186894,-101.252379);
+//distance(njit,stevens);
 //First try to get the distance between two points
-//var axios = require('axios');
+//var axios = require('axios'); does not work the above it's missing the map object reference
 function distance(origin, destination){
     var mapObj = Maps.newDirectionFinder();
     mapObj.setOrigin(origin);

@@ -1,6 +1,6 @@
 <template>
-  <div id='container'>
-    <!---
+<div class="container p-5 my-5 border">
+      <!---
     <div class="row">
       <div class="col-md-6">
           <h1>Your coordinates:</h1>
