@@ -14,20 +14,17 @@ function getLocation(){
 }
 
 getLocation();
-//var newVal = getLocation();
-//console.log(newVal['lat'])
-/*
-var coords = getLocation();
-if (coords.lat && coords.lng){
-    initMap(coords.lat,coords.lng);
-}
-*/
+
 //Labels for the markers by clicking on the screen
 const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 let labelIndex =0;
 let destination=(0,0);
 let markers = [];
 let userDestination ={};
+
+//random lat and lng 
+var njit = (40.742491, -74.178078);
+var random2 = {lat:37.186894,lng:-101.252379};
 
 //main google maps API
 function initMap(latitude, longitude) {
@@ -121,14 +118,15 @@ function initMap(latitude, longitude) {
   });
   //console.log(markers[0].position);
 
-  //directions here!
+ //--------------------------//directions route here!-------------------------
+
   let directionsService = new google.maps.DirectionsService();
   let directionsRenderer = new google.maps.DirectionsRenderer();
   directionsRenderer.setMap(map); // Existing map object displays directions
   // Create route from existing points used for markers
   const route = {
       origin: userLocation,
-      destination: userDestination,
+      destination: random2,
       travelMode: google.maps.TravelMode.DRIVING,
   }
 
@@ -151,6 +149,9 @@ function initMap(latitude, longitude) {
     });
 }
 
+//--------------------------//directions route here!-------------------------
+
+
 function calculateAndDisplayRoute(directionsService, directionsRenderer) {
   directionsService
     .route({
@@ -160,7 +161,7 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer) {
       destination: {
         query: document.getElementById("end").value,
       },
-      travelMode: google.maps.TravelMode.DRIVI NG,
+      travelMode: google.maps.TravelMode.DRIVING,
     })
     .then((response) => {
       directionsRenderer.setDirections(response);
@@ -178,6 +179,9 @@ function addMarker(location, map){
     });
 }
 
+
+//From here and below are function that are not used for now
+
 let autocomplete;
 function initAutocomplete(){
     autocomplete = new google.maps.places.Autocomplete(
@@ -190,9 +194,7 @@ function initAutocomplete(){
         autocomplete.addListener('place_changed',onPlaceChanged);
 }
 
-//random lat and lng 
-var njit = (40.742491, -74.178078);
-var stevens = (37.186894,-101.252379);
+
 //distance(njit,stevens);
 //First try to get the distance between two points
 //var axios = require('axios'); does not work the above it's missing the map object reference
@@ -254,53 +256,3 @@ function initialize() {
 }
 
 
-    
-/*
-function showUserLocationOnTheMap(latitude,longitude){
-//creation of the map objects
-let map = new google.maps.Map(document.getElementById("map"), {
-zoom: 15,
-center: new google.maps.LatLng(latitude,longitude),
-mapTypeId: google.maps.mapTypeId.ROADMAP 
-    })
-    
-}
-
-export default {
-    data(){
-        return{
-            address:"",
-            error:"",
-            //mapCenter:{ lat:0, lng:0 },
-            myCoordinates: {
-                lat: 0,
-                lng: 0,},
-            mapCoordinates:{
-                lat:0,
-                lng:0 },
-        };
-    },
-
-
-    created(){                   
-        // Geolocation
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-              (position) => {
-                this.myCoordinates.lat=position.coords.latitude;
-                this.myCoordinates.lng=position.coords.longitude;
-                let lat = position.coords.latitude;
-                let lng = position.coords.longitude;
-            });
-            (error) => {
-                // console.log('Error', error.message);
-                this.login_alert_msg = error.message;
-            }
-        } else {
-            // console.log('Browser does not support geolocation');
-        }
-    }
-}; 
-
-
-    */
