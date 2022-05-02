@@ -83,16 +83,6 @@
           </li>
         </ul>
       </div>
-    <!--
-      <div class="col-md-12">
-        <form>
-          <h3>Add a new marker</h3>
-          <label for="lat"></label>
-          <input type="text" placeholder="Enter lat">
-          <label for="lon"></label>
-          <input type="text" placeholder="Enter lng">
-        </form>
-      </div>--->
     <section>
       <br>
       <div id="map" style="width:800px;height:800px;" ></div>

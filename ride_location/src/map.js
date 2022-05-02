@@ -1,3 +1,109 @@
+// Varibles
+//Labels for the markers by clicking on the screen
+const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+let labelIndex =0;
+let markers = [];
+let userDestination ={};
+
+//random lat and lng 
+var njit = (40.742491, -74.178078);
+var random2 = {lat:37.186894,lng:-101.252379};
+var origin="";
+var destination ="";
+
+$(function () {
+    // add input listeners
+    google.maps.event.addDomListener(window, "load", function () {
+        var from_places = new google.maps.places.Autocomplete(
+            document.getElementById("from_places")
+        );
+        var to_places = new google.maps.places.Autocomplete(
+            document.getElementById("to_places")
+        );
+
+        google.maps.event.addListener(
+            from_places,
+            "place_changed",
+            function () {
+                var from_place = from_places.getPlace();
+                var from_address = from_place.formatted_address;
+                $("#origin").val(from_address);
+            }
+        );
+
+        google.maps.event.addListener(
+            to_places,
+            "place_changed",
+            function () {
+                var to_place = to_places.getPlace();
+                var to_address = to_place.formatted_address;
+                $("#destination").val(to_address);
+            }
+        );
+    });
+    // calculate distance
+    function calculateDistance() {
+        origin = $("#origin").val();
+        destination = $("#destination").val();
+        var service = new google.maps.DistanceMatrixService();
+        service.getDistanceMatrix(
+            {
+                origins: [origin],
+                destinations: [destination],
+                travelMode: google.maps.TravelMode.DRIVING,
+                unitSystem: google.maps.UnitSystem.IMPERIAL, // miles and feet.
+                // unitSystem: google.maps.UnitSystem.metric, // kilometers and meters.
+                avoidHighways: false,
+                avoidTolls: false,
+            },
+            callback
+        );
+    }
+    // get distance results
+    function callback(response, status) {
+        if (status != google.maps.DistanceMatrixStatus.OK) {
+            $("#result").html(err);
+        } else {
+            var origin = response.originAddresses[0];
+            console.log(origin);
+            var destination = response.destinationAddresses[0];
+            console.log(destination);
+            if (response.rows[0].elements[0].status === "ZERO_RESULTS") {
+                $("#result").html("Better get on a plane. There are no roads between " +
+                    origin +
+                    " and " +
+                    destination
+                );
+            } else {
+                var distance = response.rows[0].elements[0].distance;
+                //console.log(distance);
+                var duration = response.rows[0].elements[0].duration;
+                //console.log(duration);
+                //console.log(response.rows[0].elements[0].distance);
+                var distance_in_kilo = distance.value / 1000; // the kilom
+                var distance_in_mile = distance.value / 1609.34; // the mile
+                //console.log(distance_in_kilo);
+                //console.log(distance_in_mile);
+                var duration_text = duration.text;
+                var duration_value = duration.value;
+                $("#mile").html(`Distance in Miles: ${distance_in_mile.toFixed(2)}`);
+                $("#kilo").html(`Distance in Kilometre: ${distance_in_kilo.toFixed(2)}`);
+                $("#text").html(`Distance in Text: ${duration_text}`); 
+                $("#minute").html(`Distance in Minutes: ${duration_value}`);
+                $("#from").html(`Distance From: ${origin}`);
+                $("#to").text(`Distance to: ${destination}`);
+            }
+        }
+    }
+    // print results on submit the form
+    $("#distance_form").submit(function (e) {
+        e.preventDefault();
+        calculateDistance();
+        getLocation();
+    });
+});
+
+
 function getLocation(){
     var returnObject = {};
     if('geolocation' in navigator){
@@ -13,18 +119,7 @@ function getLocation(){
     }
 }
 
-getLocation();
 
-//Labels for the markers by clicking on the screen
-const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-let labelIndex =0;
-let destination=(0,0);
-let markers = [];
-let userDestination ={};
-
-//random lat and lng 
-var njit = (40.742491, -74.178078);
-var random2 = {lat:37.186894,lng:-101.252379};
 
 //main google maps API
 function initMap(latitude, longitude) {
@@ -51,7 +146,6 @@ function initMap(latitude, longitude) {
     var longitude = document.getElementById( "maps_longitude" ).value = event.latLng.lng();
     userDestination = { lat: latitude, lng: longitude };
     });
-    //userDestination = { lat: lat, lng: lng };
 
     // Create the search box and link it to the UI element.
     const input = document.getElementById("pac-input");
@@ -72,6 +166,11 @@ function initMap(latitude, longitude) {
     if (places.length == 0) {
       return;
     }
+    /*
+      const input = document.getElementById("origin");
+      const originBox = new google.maps.places.SearchBox(input);
+    */
+
 
     // Clear out the old markers.
     markers.forEach((marker) => {
@@ -104,9 +203,8 @@ function initMap(latitude, longitude) {
           position: place.geometry.location,
         })
       );
-      destination = markers[0].position;
-      //console.log(destination);
-      //var location = google.maps.Marker({position:place.geometry.location});
+
+      //destination = markers[0].position;
       if (place.geometry.viewport) {
         // Only geocodes have viewport.
         bounds.union(place.geometry.viewport);
@@ -116,7 +214,6 @@ function initMap(latitude, longitude) {
     });
     map.fitBounds(bounds);
   });
-  //console.log(markers[0].position);
 
  //--------------------------//directions route here!-------------------------
 
@@ -125,8 +222,8 @@ function initMap(latitude, longitude) {
   directionsRenderer.setMap(map); // Existing map object displays directions
   // Create route from existing points used for markers
   const route = {
-      origin: userLocation,
-      destination: random2,
+      origin: origin,
+      destination: destination,
       travelMode: google.maps.TravelMode.DRIVING,
   }
 
@@ -180,7 +277,16 @@ function addMarker(location, map){
 }
 
 
-//From here and below are function that are not used for now
+
+
+
+
+
+
+
+
+
+//From here and below are functions that are not used for now
 
 let autocomplete;
 function initAutocomplete(){
