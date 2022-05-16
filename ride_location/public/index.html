@@ -25,8 +25,8 @@
     <!--- Square Payments-->
     <script type="text/javascript" src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
     <script>
-      const appId = '{sandbox-sq0idb-ffK_7oxLQqcm-0-qJc77MQ}';
-      const locationId = '{LX3XK8AVD4EWT}'; 
+      const appId = 'sandbox-sq0idb-ffK_7oxLQqcm-0-qJc77MQ';
+      const locationId = 'LX3XK8AVD4EWT'; 
       /*
       if (window.Square) {
         var payments = Square.payments(APPLICATION_ID, LOCATION_ID);
@@ -82,9 +82,7 @@
   // Helper method for displaying the Payment Status on the screen.
   // status is either SUCCESS or FAILURE;
   function displayPaymentResults(status) {
-    const statusContainer = document.getElementById(
-      'payment-status-container'
-    );
+    const statusContainer = document.getElementById('payment-status-container');
     if (status === 'SUCCESS') {
       statusContainer.classList.remove('is-failure');
       statusContainer.classList.add('is-success');
@@ -92,15 +90,16 @@
       statusContainer.classList.remove('is-success');
       statusContainer.classList.add('is-failure');
     }
-
     statusContainer.style.visibility = 'visible';
   }    
 
+ //verify buyer here
 
   document.addEventListener('DOMContentLoaded', async function () {
     if (!window.Square) {
       throw new Error('Square.js failed to load properly');
     }
+    
     const payments = window.Square.payments(appId, locationId);
     let card;
     try {
@@ -132,16 +131,11 @@
       }
     }
 
-    const cardButton = document.getElementById(
-      'card-button'
-    );
+    const cardButton = document.getElementById('card-button');
     cardButton.addEventListener('click', async function (event) {
       await handlePaymentMethodSubmission(event, card);
     });
   });
-
-
-  
     </script>
   </head>
   <body>
