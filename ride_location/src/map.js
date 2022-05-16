@@ -5,11 +5,11 @@ let labelIndex =0;
 let markers = [];
 let userDestination ={};
 
-//random lat and lng 
-var njit = (40.742491, -74.178078);
-var random2 = {lat:37.186894,lng:-101.252379};
 var origin="";
 var destination ="";
+//random lat and lng 
+//var njit = (40.742491, -74.178078);
+//var random2 = {lat:37.186894,lng:-101.252379};
 
 $(function () {
     // add input listeners
@@ -87,15 +87,15 @@ $(function () {
                 var duration_text = duration.text;
                 var duration_value = duration.value;
                 $("#mile").html(`Distance in Miles: ${distance_in_mile.toFixed(2)}`);
-                $("#kilo").html(`Distance in Kilometre: ${distance_in_kilo.toFixed(2)}`);
-                $("#text").html(`Distance in Text: ${duration_text}`); 
-                $("#minute").html(`Distance in Minutes: ${duration_value}`);
+                $("#kilo").html(`Distance in Kilometers: ${distance_in_kilo.toFixed(2)}`);
+                $("#text").html(`Distance in Minutes: ${duration_text}`); 
+                $("#minute").html(`Distance in Seconds: ${duration_value}`);
                 $("#from").html(`Distance From: ${origin}`);
                 $("#to").text(`Distance to: ${destination}`);
             }
         }
     }
-    // print results on submit the form
+    // print results on submit the form initialize a new map search 
     $("#distance_form").submit(function (e) {
         e.preventDefault();
         calculateDistance();
@@ -103,7 +103,7 @@ $(function () {
     });
 });
 
-
+//gets current location 
 function getLocation(){
     var returnObject = {};
     if('geolocation' in navigator){
@@ -119,13 +119,9 @@ function getLocation(){
     }
 }
 
-
-
 //main google maps API
 function initMap(latitude, longitude) {
-    // The user location 
     const userLocation = { lat: latitude, lng: longitude };
-    //The map, centered at Uluru
     const map = new google.maps.Map(document.getElementById("map"), {
     center: userLocation,
     zoom: 15,
@@ -147,76 +143,7 @@ function initMap(latitude, longitude) {
     userDestination = { lat: latitude, lng: longitude };
     });
 
-    // Create the search box and link it to the UI element.
-    const input = document.getElementById("pac-input");
-    const searchBox = new google.maps.places.SearchBox(input);
-    //position in the map 
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-    // Bias the SearchBox results towards current map's viewport.
-    map.addListener("bounds_changed", () => {
-    searchBox.setBounds(map.getBounds());
-    
-    });
-    //array for markers 
-    // Listen for the event fired when the user selects a prediction and retrieve
-    // more details for that place.
-    searchBox.addListener("places_changed", () => {
-    const places = searchBox.getPlaces();
-
-    if (places.length == 0) {
-      return;
-    }
-    /*
-      const input = document.getElementById("origin");
-      const originBox = new google.maps.places.SearchBox(input);
-    */
-
-
-    // Clear out the old markers.
-    markers.forEach((marker) => {
-      marker.setMap(null);
-    });
-    markers = [];
-
-    // For each place, get the icon, name and location.
-    const bounds = new google.maps.LatLngBounds();
-
-    places.forEach((place) => {
-      if (!place.geometry || !place.geometry.location) {
-        console.log("Returned place contains no geometry");
-        return;
-      }
-    const icon = {
-        url: place.icon,
-        size: new google.maps.Size(81, 81),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(35, 35),
-      };
-
-      // Create a marker for each place.
-      markers.push(
-        new google.maps.Marker({
-          map,
-          icon,
-          title: place.name,
-          position: place.geometry.location,
-        })
-      );
-
-      //destination = markers[0].position;
-      if (place.geometry.viewport) {
-        // Only geocodes have viewport.
-        bounds.union(place.geometry.viewport);
-      } else {
-        bounds.extend(place.geometry.location);
-      }
-    });
-    map.fitBounds(bounds);
-  });
-
  //--------------------------//directions route here!-------------------------
-
   let directionsService = new google.maps.DirectionsService();
   let directionsRenderer = new google.maps.DirectionsRenderer();
   directionsRenderer.setMap(map); // Existing map object displays directions
@@ -226,7 +153,6 @@ function initMap(latitude, longitude) {
       destination: destination,
       travelMode: google.maps.TravelMode.DRIVING,
   }
-
   directionsService.route(route,
     function(response, status) { // anonymous function to capture directions
       if (status !== 'OK') {
@@ -245,26 +171,7 @@ function initMap(latitude, longitude) {
       }
     });
 }
-
 //--------------------------//directions route here!-------------------------
-
-
-function calculateAndDisplayRoute(directionsService, directionsRenderer) {
-  directionsService
-    .route({
-      origin: {
-        query: document.getElementById("start").value,
-      },
-      destination: {
-        query: document.getElementById("end").value,
-      },
-      travelMode: google.maps.TravelMode.DRIVING,
-    })
-    .then((response) => {
-      directionsRenderer.setDirections(response);
-    })
-    .catch((e) => window.alert("Directions request failed due to " + status));
-}
 
 //function to integate more markers on the map where location is the center lat lng
 function addMarker(location, map){
@@ -277,88 +184,320 @@ function addMarker(location, map){
 }
 
 
+//---------------------------------------
+//--------------Payment-------------
+/*
+const appId = '{sandbox-sq0idb-ffK_7oxLQqcm-0-qJc77MQ}';
+const locationId = '{L6DHB8FP2F7KD}'; 
 
-
-
-
-
-
-
-
-
-//From here and below are functions that are not used for now
-
-let autocomplete;
-function initAutocomplete(){
-    autocomplete = new google.maps.places.Autocomplete(
-        document.getElementById('autocomplete'),
-        {
-            types:['establishment'],
-            componentRestrictions:{'country':['us']},
-            fiels:['place_id','geometry', 'name']
-        });
-        autocomplete.addListener('place_changed',onPlaceChanged);
-}
-
-
-//distance(njit,stevens);
-//First try to get the distance between two points
-//var axios = require('axios'); does not work the above it's missing the map object reference
-function distance(origin, destination){
-    var mapObj = Maps.newDirectionFinder();
-    mapObj.setOrigin(origin);
-    mapObj.setDestination(destination);
-    var directions = mapObj.getDirections();
-
-    //pick the first and shorter routes
-    var meters = directions["routes"][0]["legs"][0]["distance"]["value"];
-    var distance = meters * 0.000621371;// converting meters to miles 
-    Logger.log(distance);
-    var duration = directions["routes"][0]["legs"][0]["duration"]["value"];
-    var minutes = duration /60; // takes the number of seconds it takes to get to the destination
-    Logger.log(minutes);
+//payment with card
+(async()=>{
+  const payments = Square.payments(
+    'sandbox-sq0idb-ffK_7oxLQqcm-0-qJc77MQ',
+    'L6DHB8FP2F7KD'
+  );
+  const cardOptions ={
+    style: {
+      input: {
+        backgroundColor: 'white'
+      },
+  }
 };
+try {
+  const card = await payments.card(cardOptions);
+  await card.attach('#card')
+  const payButton = document.getElementById('pay');
+  payButton.addEventListener('click', async()=>{
+    const result = await card.tokenize();
+    alert(JSON.stringify(result, null, 2));
+  })
+}catch(e){
+  console.error(e)
+  }
+})()
+*/
+
+
+/*
+//login to different bank accounts 
+(async()=>{
+  const payments = Square.payments(
+    'sandbox-sq0idb-ffK_7oxLQqcm-0-qJc77MQ',
+    'L6DHB8FP2F7KD'
+  );
+try {
+  const ach = await payments.ach();
+  const payButton = document.getElementById
+  ('pay2');
+  payButton.addEventListener('click', async ()=>{
+    const accountHolderName = document.
+    getElementById('account-holder-name');
+    const result = await ach.tokenize({
+      accountHolderName: accountHolderName.value
+  });
+    alert(JSON.stringify(result, null, 2));
+  })
+} catch(e){
+  console.error(e)
+  }
+})()
+
+ async function initializeCard(payments) {
+   const card = await payments.card();
+   await card.attach('#card-container'); 
+   return card; 
+ }
+
+document.addEventListener('DOMContentLoaded', async function () {
+  if (!window.Square) {
+    throw new Error('Square.js failed to load properly');
+  }
+  const payments = window.Square.payments(appId, locationId);
+  let card;
+  try {
+    card = await initializeCard(payments);
+  } catch (e) {
+    console.error('Initializing Card failed', e);
+    return;
+  }
+
+  // Step 5.2: create card payment
+});
+*/
+
+/*
+//Google payment
+(async()=>{
+  const payments = Square.payments(
+    'sandbox-sq0idb-ffK_7oxLQqcm-0-qJc77MQ',
+    'L6DHB8FP2F7KD'
+  );
+  const paymentRequest = payments.paymentRequest({
+    total:{
+      amount:"1.00",
+      label:"Total"
+    },
+    countryCode:"US",
+    currencyCode:"USD"
+  });
+  try{
+    const googlePay = await payments.googlePay
+    (paymentRequest);
+    await googlePay.attach('#google-pay');
+    
+    const googlePayButton = document.getElementById
+    ('google-pay');
+    googlePayButton.addEventListener('click', 
+    async () => {
+      const result = await googlePay.tokenize();
+      alert(JSON.stringify(result, null, 2));
+    })
+  }catch (e){
+    console.error(e)
+  }
+  })()
+*/
+
+/*
+//apple pay currently not working 
+ (async()=>{
+  const payments = Square.payments(
+    'sandbox-sq0idb-ffK_7oxLQqcm-0-qJc77MQ',
+    'L6DHB8FP2F7KD'
+  );
+  const paymentRequest = ({
+    total: {
+      amount:"1.00",
+      label:"Total"
+    },
+    countryCode:"US",
+    currencyCode:"USD"
+  });
+  try{
+    const applePay = await payments.applePay
+    (paymentRequest);
+    const applePayButton = document.getElementById
+    ('apple-pay');
+    applePayButton.style.display ='inherit';
+    applePayButton.addEventListener('click', 
+    async () => {
+      const result = await applePay.tokenize();
+      alert(JSON.stringify(result, null, 2));
+    })
+  }catch (e){
+    console.error(e)
+  }
+  })()
+*/
+
+/*
+//giftcard
+ (async()=>{
+  const payments = Square.payments(
+    'sandbox-sq0idb-ffK_7oxLQqcm-0-qJc77MQ',
+    'L6DHB8FP2F7KD'
+  );
+  const giftCardOptions = {
+    style: {
+      input:{
+      backgroundColor: "white"
+    },
+  }
+};
+  try{
+    const giftCard = await payments.giftCard
+    (giftCardOptions);
+    await giftCard.attach('#giftcard')
+    const payButton = document.getElementById
+    ('pay3');
+    PayButton.addEventListener('click', 
+    async () => {
+      const result = await giftCard.tokenize();
+      alert(JSON.stringify(result, null, 2));
+    })
+  }catch (e){
+    console.error(e)
+  }
+})()
+*/
 
 
 
-function onPlaceChanged(){
-    var place = autocomplete.getPlace();
-    if(!place.geometry){
-        //user did not select a prediction; reset the input field
-        document.getElementById('autocomplete').innerHTML = place.name;
-    }else {
-        //display details about the valid place
-        document.getElementById('details').innerHTML=place.name;
-    }
-}
+//--------------------------------------------------------
 
+/*
+//payment with card
+(async()=>{
+  const payments = Square.payments(
+    'sandbox-sq0idb-ffK_7oxLQqcm-0-qJc77MQ',
+    'L6DHB8FP2F7KD'
+  );
+  const cardOptions ={
+    style: {
+      input: {
+        backgroundColor: 'white'
+      },
+  }
+};
+try {
+  const card = await payments.card(cardOptions);
+  await card.attach('#card')
+  const payButton = document.getElementById('pay');
+  payButton.addEventListener('click', async()=>{
+    const result = await card.tokenize();
+    alert(JSON.stringify(result, null, 2));
+  })
+}catch(e){
+  console.error(e)
+  }
+})()
+*/
 
-function initialize() {
-    var address = (document.getElementById('pac-input'));
-    var autocomplete = new google.maps.places.Autocomplete(address);
-    autocomplete.setTypes(['geocode']);
-    google.maps.event.addListener(autocomplete, 'place_changed', function() {
-        var place = autocomplete.getPlace();
-        if (!place.geometry) {
-            return;
-        }
+/*
+ async function initializeCard(payments) {
+   const card = await payments.card();
+   await card.attach('#card-container'); 
+   return card; 
+ }
 
-    var address = '';
-    if (place.address_components) {
-        address = [
-            (place.address_components[0] && place.address_components[0].short_name || ''),
-            (place.address_components[1] && place.address_components[1].short_name || ''),
-            (place.address_components[2] && place.address_components[2].short_name || '')
-            ].join(' ');
-    }
-    /*********************************************************************/
-    /* var address contain your autocomplete address *********************/
-    /* place.geometry.location.lat() && place.geometry.location.lat() ****/
-    /* will be used for current address latitude and longitude************/
-    /*********************************************************************/
-    document.getElementById('lat').innerHTML = place.geometry.location.lat();
-    document.getElementById('long').innerHTML = place.geometry.location.lng();
-    });
-}
+document.addEventListener('DOMContentLoaded', async function () {
+  if (!window.Square) {
+    throw new Error('Square.js failed to load properly');
+  }
+  const payments = window.Square.payments(appId, locationId);
+  let card;
+  try {
+    card = await initializeCard(payments);
+  } catch (e) {
+    console.error('Initializing Card failed', e);
+    return;
+  }
 
+  // Step 5.2: create card payment
+});
 
+ // Call this function to send a payment token, buyer name, and other details
+ // to the project server code so that a payment can be created with 
+ // Payments API
+ async function createPayment(token) {
+   const body = JSON.stringify({
+     locationId,
+     sourceId: token,
+   });
+   const paymentResponse = await fetch('/payment', {
+     method: 'POST',
+     headers: {
+       'Content-Type': 'application/json',
+     },
+     body,
+   });
+   if (paymentResponse.ok) {
+     return paymentResponse.json();
+   }
+   const errorBody = await paymentResponse.text();
+   throw new Error(errorBody);
+ }
+
+ // This function tokenizes a payment method. 
+ // The ‘error’ thrown from this async function denotes a failed tokenization,
+ // which is due to buyer error (such as an expired card). It is up to the
+ // developer to handle the error and provide the buyer the chance to fix
+ // their mistakes.
+ async function tokenize(paymentMethod) {
+   const tokenResult = await paymentMethod.tokenize();
+   if (tokenResult.status === 'OK') {
+     return tokenResult.token;
+   } else {
+     let errorMessage = `Tokenization failed-status: ${tokenResult.status}`;
+     if (tokenResult.errors) {
+       errorMessage += ` and errors: ${JSON.stringify(
+         tokenResult.errors
+       )}`;
+     }
+     throw new Error(errorMessage);
+   }
+ }
+
+ // Helper method for displaying the Payment Status on the screen.
+ // status is either SUCCESS or FAILURE;
+ function displayPaymentResults(status) {
+   const statusContainer = document.getElementById(
+     'payment-status-container'
+   );
+   if (status === 'SUCCESS') {
+     statusContainer.classList.remove('is-failure');
+     statusContainer.classList.add('is-success');
+   } else {
+     statusContainer.classList.remove('is-success');
+     statusContainer.classList.add('is-failure');
+   }
+
+   statusContainer.style.visibility = 'visible';
+ }    
+ /*
+ async function handlePaymentMethodSubmission(event, paymentMethod) {
+   event.preventDefault();
+
+   try {
+     // disable the submit button as we await tokenization and make a
+     // payment request.
+     cardButton.disabled = true;
+     const token = await tokenize(paymentMethod);
+     const paymentResults = await createPayment(token);
+     displayPaymentResults('SUCCESS');
+
+     console.debug('Payment Success', paymentResults);
+   } catch (e) {
+     cardButton.disabled = false;
+     displayPaymentResults('FAILURE');
+     console.error(e.message);
+   }
+ }
+
+ const cardButton = document.getElementById(
+   'card-button'
+ );
+ cardButton.addEventListener('click', async function (event) {
+   await handlePaymentMethodSubmission(event, card);
+ });
+ */

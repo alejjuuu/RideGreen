@@ -1,17 +1,5 @@
 <template>
 <div class="container p-5 my-5 border">
-      <!---
-    <div class="row">
-      <div class="col-md-6">
-          <h1>Your coordinates:</h1>
-          <p>{{ myCoordinates.lat }} Latitude, {{ myCoordinates.lng }} Longitude</p>
-      </div>
-      <div class="col-md-6">
-        <h1>Destination:</h1>
-        <p>{{ mapCoordinates.lat }} Latitude, {{ mapCoordinates.lng }} Longitude</p>
-      </div>
-    </div>
-    --->
     <div class="row">
       <div class="col-md-12">
         <form id="distance_form">
@@ -32,73 +20,77 @@
         <br>
       </div>
       <div id="result">
-          <ul class="list-group">
-              <li id="mile" class="
-                list-group-item
-                d-flex
-                justify-content-between
-                align-items-center
-               ">
-                Distance In Mile :
-              </li>
-              <li id="kilo" class="
-                list-group-item
-                d-flex
-                justify-content-between
-                align-items-center
-                ">
-                Distance is Kilograms:
-              </li>
-                <li id="text" class="
-                list-group-item
-                d-flex
-                justify-content-between
-                align-items-center
-                ">
-                IN TEXT:
-              </li>
-                <li id="minute" class="
-                list-group-item
-                d-flex
-                justify-content-between
-                align-items-center
-                ">
-                IN MINUTES:
-                </li>
-                <li id="from" class="
-                list-group-item
-                d-flex
-                justify-content-between
-                align-items-center
-              ">
-                          FROM:
-                      </li>
-                      <li id="to" class="
-                list-group-item
-                d-flex
-                justify-content-between
-                align-items-center
-              ">
-                          TO:
+        <ul class="list-group">
+          <li id="mile" class="list-group-item d-flex justify-content-between align-items-center">
+            Distance in Miles:
+          </li>
+          <li id="kilo" class="list-group-item d-flex justify-content-between align-items-center">
+            Distance in Kilometers:
+          </li>
+          <li id="text" class="list-group-item d-flex justify-content-between align-items-center">
+            Total minutes:
+          </li>
+          <li id="minute" class="list-group-item d-flex justify-content-between align-items-center">
+            Total seconds:
+          </li>
+          <li id="from" class="list-group-item d-flex justify-content-between align-items-center">
+            FROM:
+          </li>
+          <li id="to" class="list-group-item d-flex justify-content-between align-items-center">
+            TO:
           </li>
         </ul>
       </div>
     <section>
       <br>
       <div id="map" style="width:800px;height:800px;" ></div>
+      <!--
       <input
       id="pac-input"
       class="controls"
       type="text"
-      placeholder="Search Box"
-    />
+      placeholder="Search Box"/>
+      --->
     </section>
-    </div>   
+    </div>
+    <br>
+    <div id="wrapper">
+      <div id="card"></div>
+      <button id="pay">Pay</button>
+    </div>
+    <br>
+    <div id="wrapper">
+      <input id="account-holder-name"
+      placeholder="Account Holder Name" type="text"/>
+      <button id="pay2">Pay ACH</button>
+    </div>
+    <hr>
+    <br>
+    <!--- GooglePay--->
+    <div id="wrapper">
+      <div id="google-pay"></div>
+    </div>
+    <br>
+    <hr>
+    <!--- Apple Pay --->
+      <div id="apple-pay"></div>
+    <br>
+    <hr>
+    <div id="wrapper">
+      <div id="giftcard"></div>
+      <button id="pay3">Pay</button>
+    </div>
+    <hr>
+    <!--- Real payment method ---> 
+    <form id="payment-form">
+      <div id="card-container"></div>
+      <button id="card-button" type="button">Pay $1.00</button>
+    </form>
+    <div id="payment-status-container"></div>
   </div> 
 </template>
 
 <script src="../../src/map.js"> </script>
-
 <style>
 .ui.button,
 .dot.circle.icon{
@@ -114,6 +106,7 @@
     display: flex;
     justify-content: center;
   }
+  /*
 #pac-input {
   background-color: #fff;
   font-family: Roboto;
@@ -124,7 +117,7 @@
   text-overflow: ellipsis;
   width: 400px;
 }
-
+*/
 </style>
 
 
