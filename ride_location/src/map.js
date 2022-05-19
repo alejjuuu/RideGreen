@@ -7,9 +7,6 @@ let userDestination ={};
 
 var origin="";
 var destination ="";
-//random lat and lng 
-//var njit = (40.742491, -74.178078);
-//var random2 = {lat:37.186894,lng:-101.252379};
 
 $(function () {
     // add input listeners
@@ -186,318 +183,52 @@ function addMarker(location, map){
 
 //---------------------------------------
 //--------------Payment-------------
+
+const appId = 'sandbox-sq0idb-ffK_7oxLQqcm-0-qJc77MQ';
+const locationId = 'L6DHB8FP2F7KD'; 
 /*
-const appId = '{sandbox-sq0idb-ffK_7oxLQqcm-0-qJc77MQ}';
-const locationId = '{L6DHB8FP2F7KD}'; 
+async function main() {
 
-//payment with card
-(async()=>{
-  const payments = Square.payments(
-    'sandbox-sq0idb-ffK_7oxLQqcm-0-qJc77MQ',
-    'L6DHB8FP2F7KD'
-  );
-  const cardOptions ={
-    style: {
-      input: {
-        backgroundColor: 'white'
-      },
+    const payments = Square.payments(appId, locationId);
+    const card = await payments.card();
+    await card.attach('#card-container');
+    async function eventHandler(event) {
+      event.preventDefault();
+      try {
+        const result = await card.tokenize();
+        if (result.status === 'OK') {
+          console.log(`Payment token is ${result.token}`);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    const cardButton = document.getElementById('card-button');
+    cardButton.addEventListener('click', eventHandler);
   }
-};
-try {
-  const card = await payments.card(cardOptions);
-  await card.attach('#card')
-  const payButton = document.getElementById('pay');
-  payButton.addEventListener('click', async()=>{
-    const result = await card.tokenize();
-    alert(JSON.stringify(result, null, 2));
-  })
-}catch(e){
-  console.error(e)
-  }
-})()
-*/
+  main();
+  */
 
 
-/*
-//login to different bank accounts 
-(async()=>{
-  const payments = Square.payments(
-    'sandbox-sq0idb-ffK_7oxLQqcm-0-qJc77MQ',
-    'L6DHB8FP2F7KD'
-  );
-try {
-  const ach = await payments.ach();
-  const payButton = document.getElementById
-  ('pay2');
-  payButton.addEventListener('click', async ()=>{
-    const accountHolderName = document.
-    getElementById('account-holder-name');
-    const result = await ach.tokenize({
-      accountHolderName: accountHolderName.value
-  });
-    alert(JSON.stringify(result, null, 2));
-  })
-} catch(e){
-  console.error(e)
-  }
-})()
-
- async function initializeCard(payments) {
-   const card = await payments.card();
-   await card.attach('#card-container'); 
-   return card; 
- }
-
-document.addEventListener('DOMContentLoaded', async function () {
-  if (!window.Square) {
-    throw new Error('Square.js failed to load properly');
-  }
-  const payments = window.Square.payments(appId, locationId);
-  let card;
+  /*
   try {
-    card = await initializeCard(payments);
-  } catch (e) {
-    console.error('Initializing Card failed', e);
-    return;
-  }
-
-  // Step 5.2: create card payment
-});
-*/
-
-/*
-//Google payment
-(async()=>{
-  const payments = Square.payments(
-    'sandbox-sq0idb-ffK_7oxLQqcm-0-qJc77MQ',
-    'L6DHB8FP2F7KD'
-  );
-  const paymentRequest = payments.paymentRequest({
-    total:{
-      amount:"1.00",
-      label:"Total"
+  const response = await client.paymentsApi.createPayment({
+    sourceId: 'cnon:card-nonce-ok',
+    idempotencyKey: '205351ed-b34c-445c-9c64-3c417082cc1e',
+    amountMoney: {
+      amount: 2000,
+      currency: 'USD'
     },
-    countryCode:"US",
-    currencyCode:"USD"
+    delayDuration: 'PT36H',
+    autocomplete: true,
+    orderId: '1',
+    customerId: '1',
+    locationId: 'LX3XK8AVD4EWT',
+    referenceId: '1'
   });
-  try{
-    const googlePay = await payments.googlePay
-    (paymentRequest);
-    await googlePay.attach('#google-pay');
-    
-    const googlePayButton = document.getElementById
-    ('google-pay');
-    googlePayButton.addEventListener('click', 
-    async () => {
-      const result = await googlePay.tokenize();
-      alert(JSON.stringify(result, null, 2));
-    })
-  }catch (e){
-    console.error(e)
-  }
-  })()
+
+  console.log(response.result);
+} catch(error) {
+  console.log(error);
+}
 */
-
-/*
-//apple pay currently not working 
- (async()=>{
-  const payments = Square.payments(
-    'sandbox-sq0idb-ffK_7oxLQqcm-0-qJc77MQ',
-    'L6DHB8FP2F7KD'
-  );
-  const paymentRequest = ({
-    total: {
-      amount:"1.00",
-      label:"Total"
-    },
-    countryCode:"US",
-    currencyCode:"USD"
-  });
-  try{
-    const applePay = await payments.applePay
-    (paymentRequest);
-    const applePayButton = document.getElementById
-    ('apple-pay');
-    applePayButton.style.display ='inherit';
-    applePayButton.addEventListener('click', 
-    async () => {
-      const result = await applePay.tokenize();
-      alert(JSON.stringify(result, null, 2));
-    })
-  }catch (e){
-    console.error(e)
-  }
-  })()
-*/
-
-/*
-//giftcard
- (async()=>{
-  const payments = Square.payments(
-    'sandbox-sq0idb-ffK_7oxLQqcm-0-qJc77MQ',
-    'L6DHB8FP2F7KD'
-  );
-  const giftCardOptions = {
-    style: {
-      input:{
-      backgroundColor: "white"
-    },
-  }
-};
-  try{
-    const giftCard = await payments.giftCard
-    (giftCardOptions);
-    await giftCard.attach('#giftcard')
-    const payButton = document.getElementById
-    ('pay3');
-    PayButton.addEventListener('click', 
-    async () => {
-      const result = await giftCard.tokenize();
-      alert(JSON.stringify(result, null, 2));
-    })
-  }catch (e){
-    console.error(e)
-  }
-})()
-*/
-
-
-
-//--------------------------------------------------------
-
-/*
-//payment with card
-(async()=>{
-  const payments = Square.payments(
-    'sandbox-sq0idb-ffK_7oxLQqcm-0-qJc77MQ',
-    'L6DHB8FP2F7KD'
-  );
-  const cardOptions ={
-    style: {
-      input: {
-        backgroundColor: 'white'
-      },
-  }
-};
-try {
-  const card = await payments.card(cardOptions);
-  await card.attach('#card')
-  const payButton = document.getElementById('pay');
-  payButton.addEventListener('click', async()=>{
-    const result = await card.tokenize();
-    alert(JSON.stringify(result, null, 2));
-  })
-}catch(e){
-  console.error(e)
-  }
-})()
-*/
-
-/*
- async function initializeCard(payments) {
-   const card = await payments.card();
-   await card.attach('#card-container'); 
-   return card; 
- }
-
-document.addEventListener('DOMContentLoaded', async function () {
-  if (!window.Square) {
-    throw new Error('Square.js failed to load properly');
-  }
-  const payments = window.Square.payments(appId, locationId);
-  let card;
-  try {
-    card = await initializeCard(payments);
-  } catch (e) {
-    console.error('Initializing Card failed', e);
-    return;
-  }
-
-  // Step 5.2: create card payment
-});
-
- // Call this function to send a payment token, buyer name, and other details
- // to the project server code so that a payment can be created with 
- // Payments API
- async function createPayment(token) {
-   const body = JSON.stringify({
-     locationId,
-     sourceId: token,
-   });
-   const paymentResponse = await fetch('/payment', {
-     method: 'POST',
-     headers: {
-       'Content-Type': 'application/json',
-     },
-     body,
-   });
-   if (paymentResponse.ok) {
-     return paymentResponse.json();
-   }
-   const errorBody = await paymentResponse.text();
-   throw new Error(errorBody);
- }
-
- // This function tokenizes a payment method. 
- // The ‘error’ thrown from this async function denotes a failed tokenization,
- // which is due to buyer error (such as an expired card). It is up to the
- // developer to handle the error and provide the buyer the chance to fix
- // their mistakes.
- async function tokenize(paymentMethod) {
-   const tokenResult = await paymentMethod.tokenize();
-   if (tokenResult.status === 'OK') {
-     return tokenResult.token;
-   } else {
-     let errorMessage = `Tokenization failed-status: ${tokenResult.status}`;
-     if (tokenResult.errors) {
-       errorMessage += ` and errors: ${JSON.stringify(
-         tokenResult.errors
-       )}`;
-     }
-     throw new Error(errorMessage);
-   }
- }
-
- // Helper method for displaying the Payment Status on the screen.
- // status is either SUCCESS or FAILURE;
- function displayPaymentResults(status) {
-   const statusContainer = document.getElementById(
-     'payment-status-container'
-   );
-   if (status === 'SUCCESS') {
-     statusContainer.classList.remove('is-failure');
-     statusContainer.classList.add('is-success');
-   } else {
-     statusContainer.classList.remove('is-success');
-     statusContainer.classList.add('is-failure');
-   }
-
-   statusContainer.style.visibility = 'visible';
- }    
- /*
- async function handlePaymentMethodSubmission(event, paymentMethod) {
-   event.preventDefault();
-
-   try {
-     // disable the submit button as we await tokenization and make a
-     // payment request.
-     cardButton.disabled = true;
-     const token = await tokenize(paymentMethod);
-     const paymentResults = await createPayment(token);
-     displayPaymentResults('SUCCESS');
-
-     console.debug('Payment Success', paymentResults);
-   } catch (e) {
-     cardButton.disabled = false;
-     displayPaymentResults('FAILURE');
-     console.error(e.message);
-   }
- }
-
- const cardButton = document.getElementById(
-   'card-button'
- );
- cardButton.addEventListener('click', async function (event) {
-   await handlePaymentMethodSubmission(event, card);
- });
- */

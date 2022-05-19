@@ -54,6 +54,7 @@
     </section>
     </div>
     <br>
+    <!---
     <div id="wrapper">
       <div id="card"></div>
       <button id="pay">Pay</button>
@@ -66,13 +67,13 @@
     </div>
     <hr>
     <br>
-    <!--- GooglePay--->
+     GooglePay
     <div id="wrapper">
       <div id="google-pay"></div>
     </div>
     <br>
     <hr>
-    <!--- Apple Pay --->
+     Apple Pay 
       <div id="apple-pay"></div>
     <br>
     <hr>
@@ -81,6 +82,7 @@
       <button id="pay3">Pay</button>
     </div>
     <hr>
+    --->
     <!--- Real payment method ---> 
     <form id="payment-form">
       <div id="card-container"></div>
