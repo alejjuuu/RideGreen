@@ -23,7 +23,7 @@
         </div>
 
         <div class="col s12 place-order-button-block">
-            <button class="btn col s12 #e91e63 pink" @click="placeOrderButtonPressed">Place Order</button>
+            <button class="btn col s12 " @click="placeOrderButtonPressed">Place Order</button>
         </div>
         <!---
         <form>
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+//import firebase from 'firebase'
 export default {
     data() {
         return {
@@ -115,7 +115,7 @@ export default {
 .payment-form {
     max-width: 400px;
     margin: 20px auto;
-    border: 1px solid #ececec;
+    border: 1px solid #000000;
 }
 .payment-form h5 {
     margin: 0;
@@ -130,7 +130,7 @@ export default {
 #card-cvc-element {
     background: white;
     padding: 5px;
-    border: 1px solid #ececec;
+    border: 1px solid #050505;
     height: 30px;
 }
 .place-order-button-block {

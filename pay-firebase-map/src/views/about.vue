@@ -52,7 +52,7 @@
 <style>
 .ui.button,
 .dot.circle.icon{
-  background-color: rgb(169, 85, 85);
+  background-color: rgb(255, 255, 255);
   color: white;
 }
 
@@ -67,7 +67,6 @@
 </style>
 
 <script src="../components/map.js">
- 
 
 // @ is an alias to /src
 import map from '@/components/map.vue'

@@ -41,10 +41,10 @@ form.addEventListener('submit', async (event) => {
   stripe.confirmPayment({
     elements,
     confirmParams: {
-      return_url: 'https://example.com',
+      return_url: 'https://example.com', //website where the user is sent to 
       payment_method_data: {
         billing_details: {
-          name: 'Jenny Rosen',
+          name: 'Jenny Rosen', // fill out the information with the customer data 
           email: 'jenny.rosen@example.com',
         }
       },
