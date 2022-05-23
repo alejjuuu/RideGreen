@@ -1,13 +1,13 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-//import firebase from 'firebase'
+import firebase from 'firebase'
 
 
 
 
 //Vue.config.productionTip = false
-/*
+
 const firebaseConfig = {
   apiKey: "AIzaSyBlHAodGDhBVpbZkwpp-4KEc_cf3JZosQ0",
   authDomain: "edigitalvalue.firebaseapp.com",
@@ -20,7 +20,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-*/
+
 createApp(App).use(router).mount('#app')
 
 // Initialize Firebase
