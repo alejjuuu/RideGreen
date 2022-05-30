@@ -1,9 +1,12 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+
 import firebase from 'firebase'
 
-
+//import { initializeApp } from "firebase/app";
+//import { getFirestore } from 'firebase/firestore'
+//import { getStorage } from 'firebase/storage'
 
 
 //Vue.config.productionTip = false
@@ -18,8 +21,19 @@ const firebaseConfig = {
   measurementId: "G-67EGBZJSCQ"
 };
 
-// Initialize Firebase
+//initilize firebase
 firebase.initializeApp(firebaseConfig);
+//const app = initializeApp(firebaseConfig);
+
+//const db = getFirestore()
+//const storage = getStorage()
+//export {db, storage, app}
+
+//export default db;
+//export default getFirestore;
+
+// Initialize Firebase
+//firebase.initializeApp(firebaseConfig);
 
 createApp(App).use(router).mount('#app')
 

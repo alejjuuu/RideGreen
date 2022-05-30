@@ -20,17 +20,26 @@ elements.fetchUpdates()
   });
 
 //create a payment element
-  var paymentElement = elements.create('payment');
+//var paymentElement = elements.create('payment');
 
 
 
-  //create a payment with customized fields
-  // Customize which fields are collected by the Payment Element
+//create a payment with customized fields
+// Customize which fields are collected by the Payment Element
 var paymentElement = elements.create('payment', {
   fields: {
     billingDetails: {
       name: 'never',
       email: 'never',
+      phone: 'never',
+      address: {
+        line1: 'never',
+        line2: 'never',
+        city: 'never',
+        state: 'never',
+        country: 'never',
+        postalCode: 'never'
+      }
     }
   }
 });
@@ -60,18 +69,18 @@ form.addEventListener('submit', async (event) => {
 
 
 //get a payment element
-var paymentElement = elements.getElement('payment');
+//var paymentElement = elements.getElement('payment');
 
 
 // Update a Payment Element after creation
-var paymentElement = elements.getElement('payment');
+//var paymentElement = elements.getElement('payment');
 paymentElement.update({business: {name: 'Stripe Shop'}});
 
 
 
 // get a payment element
 // Collapse a Payment Elememt
-var paymentElement = elements.getElement('payment');
+//var paymentElement = elements.getElement('payment');
 paymentElement.collapse();
 
 
@@ -79,7 +88,13 @@ paymentElement.collapse();
 var cardElement = elements.create('card');
 
 //get an element
-var cardElement = elements.getElement('card');
+//var cardElement = elements.getElement('card');
+
+//create a link atherntication element
+var linkAuthenticationElement = elements.create('linkAuthentication');
+
+//get a link athetication element 
+linkAuthenticationElement = elements.getElement('linkAuthentication');
 
 
 // Update an element with details collected elsewhere on your page
