@@ -1,8 +1,8 @@
 <template>
   <nav>
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">Map</router-link> |
-    <router-link to="/payment">Payment</router-link> 
+    <router-link to="/map">Map</router-link> |
+    <router-link to="/payment">Payment</router-link>
   </nav>
   <router-view/>
 </template>
@@ -13,7 +13,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #000000;
+  color: #2c3e50;
 }
 
 nav {
@@ -22,10 +22,10 @@ nav {
 
 nav a {
   font-weight: bold;
-  color: #050505;
+  color: #2c3e50;
 }
 
 nav a.router-link-exact-active {
-  color: #000000;
+  color: #42b983;
 }
 </style>

@@ -5,8 +5,7 @@
             <span class="right">${{amount}}</span>
         </h5>
 
-        <div class="error red center-align white-text">
-            {{stripeValidationError}}</div>
+        <div class="error red center-align white-text">{{stripeValidationError}}</div>
 
         <div class="col s12 card-element">
             <label>Card Number</label>
@@ -24,28 +23,13 @@
         </div>
 
         <div class="col s12 place-order-button-block">
-            <button class="btn col s12 " @click="placeOrderButtonPressed">Place Order</button>
+            <button class="btn col s12 #e91e63 pink" @click="placeOrderButtonPressed">Place Order</button>
         </div>
-        <br>
-        <form>
-        <div>
-            <label>Name</label>
-            <input class="my-input">
-        </div>
-        <div>
-            <label>Card</label>
-            <!-- Using the same "my-input" class on the -->
-            <!-- regular input above and on this container. -->
-            <div class="my-input" id="card-element"></div>
-        </div>
-        </form>
-        <br>
     </section>
 </template>
 
 <script>
-//src='../components/payment.js'
-//import firebase from 'firebase'
+import firebase from 'firebase'
 export default {
     data() {
         return {
@@ -66,13 +50,10 @@ export default {
             var elements = this.stripe.elements();
             this.cardNumberElement = elements.create("cardNumber");
             this.cardNumberElement.mount("#card-number-element");
-
             this.cardExpiryElement = elements.create("cardExpiry");
             this.cardExpiryElement.mount("#card-expiry-element");
-            
             this.cardCvcElement = elements.create("cardCvc");
             this.cardCvcElement.mount("#card-cvc-element");
-            
             this.cardNumberElement.on("change", this.setValidationError);
             this.cardExpiryElement.on("change", this.setValidationError);
             this.cardCvcElement.on("change", this.setValidationError);
@@ -94,24 +75,22 @@ export default {
             });
         },
         saveDataToFireStore(stripeObject) {
-
             const db = firebase.firestore()
             const chargesRef = db.collection("charges")
             const pushId = chargesRef.doc().id
-            
             db.collection("charges").doc(pushId).set(stripeObject)
             chargesRef.doc(pushId).onSnapshot(snapShot => {
-                const charge = snapShot.data();
-                if (charge.error) {
-                    alert(charge.error);
-                    chargesRef
-                    .doc(pushId)
-                    .delete();
-                    return;
-                }
-                if (charge.status && charge.status == "succeeded") {
-                    alert(charge.status);
-                }
+                 const charge = snapShot.data();
+                        if (charge.error) {
+                            alert(charge.error);
+                            chargesRef
+                            .doc(pushId)
+                            .delete();
+                            return;
+                        }
+                        if (charge.status && charge.status == "succeeded") {
+                            alert(charge.status);
+                        }
             })
         }
     }
@@ -122,7 +101,7 @@ export default {
 .payment-form {
     max-width: 400px;
     margin: 20px auto;
-    border: 1px solid #000000;
+    border: 1px solid #ececec;
 }
 .payment-form h5 {
     margin: 0;
@@ -137,25 +116,10 @@ export default {
 #card-cvc-element {
     background: white;
     padding: 5px;
-    border: 1px solid #050505;
+    border: 1px solid #ececec;
     height: 30px;
 }
 .place-order-button-block {
     margin: 10px 0;
 }
-.my-input {
-    padding: 10px;
-    border: 1px solid #ccc;
-}
-
-/*
-.my-input {
-padding: 10px;
-border: 1px solid #ccc;
-}
-*/
 </style>
-
-
-
-
