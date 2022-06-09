@@ -50,20 +50,16 @@
 </template>
 
 <style>
-.ui.button,
-.dot.circle.icon{
-  background-color: rgb(255, 255, 255);
-  color: white;
-}
 
-  #map {
-    height: 100%;
-    padding: 10rem;
-    background-color: grey;
-    align-content: center;
-    display: flex;
-    justify-content: center;
-  }
+
+#map {
+  height: 100%;
+  padding: 10rem;
+  background-color: grey;
+  align-content: center;
+  display: flex;
+  justify-content: center;
+}
 </style>
 
 <script src="../components/map.js">

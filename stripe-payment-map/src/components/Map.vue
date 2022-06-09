@@ -50,11 +50,6 @@
 </template>
 
 <style>
-.ui.button,
-.dot.circle.icon{
-  background-color: rgb(255, 255, 255);
-  color: white;
-}
 
   #map {
     height: 100%;
